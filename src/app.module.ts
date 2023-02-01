@@ -14,7 +14,7 @@ import * as DailyRotateFile from 'winston-daily-rotate-file';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { DataSource } from 'typeorm';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
 
 const logDir = 'logs';
 
@@ -65,7 +65,7 @@ const TypeOrmSettingModule = TypeOrmModule.forRootAsync({
     HealthModule,
     WinstomSettingModule,
     TypeOrmSettingModule,
-    UsersModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
