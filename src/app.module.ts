@@ -4,12 +4,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthModule } from './health/health.module';
 import appConfig from './config/app.config';
+import databaseConfig from './config/database.config';
 import {
   utilities as nestWinstonModuleUtilities,
   WinstonModule,
 } from 'nest-winston';
 import * as winston from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './database/typeorm-config.service';
+import { DataSource } from 'typeorm';
 
 const logDir = 'logs';
 
@@ -41,16 +45,25 @@ const WinstomSettingModule = WinstonModule.forRoot({
   ],
 });
 
+const TypeOrmSettingModule = TypeOrmModule.forRootAsync({
+  useClass: TypeOrmConfigService,
+  dataSourceFactory: async (options) => {
+    const dataSource = await new DataSource(options).initialize();
+    return dataSource;
+  },
+});
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.test',
       ignoreEnvFile: process.env.NODE_ENV === 'prod', // store produnction env on cicd
-      load: [appConfig],
+      load: [appConfig, databaseConfig],
     }),
     HealthModule,
     WinstomSettingModule,
+    TypeOrmSettingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
