@@ -394,7 +394,9 @@ Temporary Items
 
 =======
 # Local
-.env.*
+.env.dev
+.env.test
+.env.prod
 dist
 
 logs/
