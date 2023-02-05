@@ -6,9 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { IUserService } from './interfaces/userService.interface';
 import { IUserRepository } from './interfaces/userRepository.interface';
+import { LoggerModule } from 'src/logger/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity]), LoggerModule],
   controllers: [UserController],
   providers: [
     {

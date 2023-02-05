@@ -1,50 +1,16 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthModule } from './health/health.module';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
-import {
-  utilities as nestWinstonModuleUtilities,
-  WinstonModule,
-} from 'nest-winston';
-import * as winston from 'winston';
-import * as DailyRotateFile from 'winston-daily-rotate-file';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { DataSource } from 'typeorm';
 import { UserModule } from './user/user.module';
-
-const logDir = 'logs';
-
-const dailyLoggerOptions = (level: string) => {
-  return {
-    level,
-    datePattern: 'YYYY-MM-DD',
-    dirname: logDir + `/${level}`,
-    filename: `${level}-%DATE%.log`,
-    maxSize: '20m',
-    maxFiles: '14d',
-    zippedArchive: true,
-  };
-};
-
-const WinstomSettingModule = WinstonModule.forRoot({
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        nestWinstonModuleUtilities.format.nestLike('projectName', {
-          prettyPrint: true,
-        }),
-      ),
-    }),
-    new DailyRotateFile(dailyLoggerOptions('error')),
-    new DailyRotateFile(dailyLoggerOptions('warn')),
-    new DailyRotateFile(dailyLoggerOptions('info')),
-  ],
-});
+import { LoggerModule } from './logger/logger.module';
+import { reqResLogMiddleware } from './common/middlewares/reqResLog.middleware';
 
 const TypeOrmSettingModule = TypeOrmModule.forRootAsync({
   useClass: TypeOrmConfigService,
@@ -63,11 +29,15 @@ const TypeOrmSettingModule = TypeOrmModule.forRootAsync({
       load: [appConfig, databaseConfig],
     }),
     HealthModule,
-    WinstomSettingModule,
     TypeOrmSettingModule,
     UserModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(reqResLogMiddleware).forRoutes('*');
+  }
+}
