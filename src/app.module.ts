@@ -6,7 +6,7 @@ import { HealthModule } from './health/health.module';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from './database/typeorm-config.service';
+import { TypeOrmConfigService } from './database/typeorm/typeormConfig.service';
 import { DataSource } from 'typeorm';
 import { UserModule } from './user/user.module';
 import { LoggerModule } from './logger/logger.module';
