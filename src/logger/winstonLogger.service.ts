@@ -17,4 +17,8 @@ export class WinstonLoggerService implements ILoggerService {
   info(data) {
     this.logger.info(data);
   }
+
+  error(err) {
+    this.logger.error(err);
+  }
 }
