@@ -7,9 +7,10 @@ import { UserEntity } from './entities/user.entity';
 import { IUserService } from './interfaces/userService.interface';
 import { IUserRepository } from './interfaces/userRepository.interface';
 import { LoggerModule } from 'src/logger/logger.module';
+import { RedisModule } from 'src/database/redis/redis.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), LoggerModule],
+  imports: [TypeOrmModule.forFeature([UserEntity]), LoggerModule, RedisModule],
   controllers: [UserController],
   providers: [
     {
