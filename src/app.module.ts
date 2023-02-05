@@ -6,11 +6,12 @@ import { HealthModule } from './health/health.module';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from './database/typeorm-config.service';
+import { TypeOrmConfigService } from './database/typeorm/typeormConfig.service';
 import { DataSource } from 'typeorm';
 import { UserModule } from './user/user.module';
 import { LoggerModule } from './logger/logger.module';
 import { reqResLogMiddleware } from './common/middlewares/reqResLog.middleware';
+import redisConfig from './config/redis.config';
 
 const TypeOrmSettingModule = TypeOrmModule.forRootAsync({
   useClass: TypeOrmConfigService,
@@ -26,7 +27,7 @@ const TypeOrmSettingModule = TypeOrmModule.forRootAsync({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env.test',
       ignoreEnvFile: process.env.NODE_ENV === 'prod', // store produnction env on cicd
-      load: [appConfig, databaseConfig],
+      load: [appConfig, databaseConfig, redisConfig],
     }),
     HealthModule,
     TypeOrmSettingModule,
