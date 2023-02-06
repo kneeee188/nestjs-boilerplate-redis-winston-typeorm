@@ -12,7 +12,7 @@ export class UserController implements IUserController {
 
   @Get()
   async findAll() {
-    const result = await this.redisService.set('11', 'bb');
+    await this.redisService.set('11', 'bb');
     return this.userService.findAll();
   }
 }
