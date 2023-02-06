@@ -2,17 +2,29 @@
 import { Module } from '@nestjs/common';
 import { IRedisService } from './interfaces/redis.interface';
 import { RedisService } from './redis.service';
-import { RedisModule as redisModule } from '@liaoliaots/nestjs-redis';
-
-const RedisSettingModule = redisModule.forRoot({
-  config: {
-    host: process.env.REDIS_HOST,
-    port: parseInt(process.env.REDIS_PORT, 10) || 6379,
-  },
-});
+import {
+  RedisModule as _RedisModule,
+  RedisModuleOptions,
+} from '@liaoliaots/nestjs-redis';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [RedisSettingModule],
+  imports: [
+    _RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (
+        configService: ConfigService,
+      ): Promise<RedisModuleOptions> => {
+        return {
+          config: {
+            host: configService.get('redis.host'),
+            port: configService.get('redis.port'),
+          },
+        };
+      },
+    }),
+  ],
   providers: [
     {
       provide: IRedisService,
