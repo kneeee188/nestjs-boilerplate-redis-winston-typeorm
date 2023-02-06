@@ -5,21 +5,11 @@ import { AppService } from './app.service';
 import { HealthModule } from './health/health.module';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from './database/typeorm/typeormConfig.service';
-import { DataSource } from 'typeorm';
 import { UserModule } from './user/user.module';
 import { LoggerModule } from './logger/logger.module';
 import { reqResLogMiddleware } from './common/middlewares/reqResLog.middleware';
 import redisConfig from './config/redis.config';
-
-const TypeOrmSettingModule = TypeOrmModule.forRootAsync({
-  useClass: TypeOrmConfigService,
-  dataSourceFactory: async (options) => {
-    const dataSource = await new DataSource(options).initialize();
-    return dataSource;
-  },
-});
+import { TypeOrmModule } from './database/typeorm/typeorm.module';
 
 @Module({
   imports: [
@@ -30,7 +20,7 @@ const TypeOrmSettingModule = TypeOrmModule.forRootAsync({
       load: [appConfig, databaseConfig, redisConfig],
     }),
     HealthModule,
-    TypeOrmSettingModule,
+    TypeOrmModule,
     UserModule,
     LoggerModule,
   ],
