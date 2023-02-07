@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ILoggerService } from './interfaces/loggerService.interface';
-import { WinstonLoggerService } from './winstonLogger.service';
+import { ILoggerService } from './interfaces/logger-service.interface';
+import { WinstonLoggerService } from './winston-logger.service';
 import {
   utilities as nestWinstonModuleUtilities,
   WinstonModule,

@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { RequestMethod } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/exceptions/http.exception';
-import { ILoggerService } from './logger/interfaces/loggerService.interface';
+import { ILoggerService } from './logger/interfaces/logger-service.interface';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {

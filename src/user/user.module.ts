@@ -4,8 +4,8 @@ import { UserController } from './user.controller';
 import { UserRepository } from './user.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
-import { IUserService } from './interfaces/userService.interface';
-import { IUserRepository } from './interfaces/userRepository.interface';
+import { IUserService } from './interfaces/user-service.interface';
+import { IUserRepository } from './interfaces/user-repository.interface';
 import { LoggerModule } from 'src/logger/logger.module';
 import { RedisModule } from 'src/database/redis/redis.module';
 

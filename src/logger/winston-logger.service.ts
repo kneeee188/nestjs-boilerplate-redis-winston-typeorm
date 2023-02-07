@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ILoggerService } from './interfaces/loggerService.interface';
+import { ILoggerService } from './interfaces/logger-service.interface';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger as WinstonLogger } from 'winston';
 

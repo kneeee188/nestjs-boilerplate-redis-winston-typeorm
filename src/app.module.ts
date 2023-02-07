@@ -7,7 +7,7 @@ import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { UserModule } from './user/user.module';
 import { LoggerModule } from './logger/logger.module';
-import { reqResLogMiddleware } from './common/middlewares/reqResLog.middleware';
+import { reqResLogMiddleware } from './common/middlewares/req-res-log.middleware';
 import redisConfig from './config/redis.config';
 import { TypeOrmModule } from './database/typeorm/typeorm.module';
 

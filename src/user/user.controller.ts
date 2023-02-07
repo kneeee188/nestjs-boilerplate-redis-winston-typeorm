@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { IRedisService } from 'src/database/redis/interfaces/redis.interface';
-import { IUserController } from './interfaces/userController.interface';
-import { IUserService } from './interfaces/userService.interface';
+import { IUserController } from './interfaces/user-controller.interface';
+import { IUserService } from './interfaces/user-service.interface';
 
 @Controller('user')
 export class UserController implements IUserController {
